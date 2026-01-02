@@ -101,38 +101,23 @@ function loadPage(page, pageElement) {
         e.preventDefault();
     });
 
-    img.on('load', function () {
-        $(this).css({width: '100%', height: '100%'});
-        $(this).appendTo(pageElement);
-        pageElement.find('.loader').remove();
-    }).on('error', function () {
-        pageElement.find('.loader').remove();
-    });
-
+    img.css({width: '100%', height: '100%'});
     img.attr('src', flipbookcfg.url + (page - flipbookcfg.cover) + '.jpg');
-
-    if (img[0].complete && img[0].naturalWidth > 0) {
-        img.trigger('load');
-    }
+    img.appendTo(pageElement);
+    pageElement.find('.loader').remove();
 
     loadRegions(page, pageElement);
 }
 
 //Load large page
 function loadLargePage(page, pageElement) {
+    var prevImg = pageElement.find('img');
     var img = $('<img />');
-    img.on('load', function () {
-        var prevImg = pageElement.find('img');
-        $(this).css({width: '100%', height: '100%'});
-        $(this).appendTo(pageElement);
-        prevImg.remove();
-    });
 
+    img.css({width: '100%', height: '100%'});
     img.attr('src', flipbookcfg.url + (page - flipbookcfg.cover) + '.jpg');
-
-    if (img[0].complete && img[0].naturalWidth > 0) {
-        img.trigger('load');
-    }
+    img.appendTo(pageElement);
+    prevImg.remove();
 }
 
 //Load small page
