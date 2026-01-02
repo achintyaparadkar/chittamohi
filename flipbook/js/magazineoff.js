@@ -52,22 +52,8 @@ function zoomTo(event) {
 // Load regions
 
 function loadRegions(page, element) {
-
-var siteURL=flipbookcfg.name;
-   
-    //$.getJSON('/flipbook/'+siteURL+'/'+page+'-regions.json').
-    $.getJSON('data/'+page+'-regions.json').
-
-// $.getJSON('https://www.flipbookpdf.net/web/site/region.php?flip='+siteURL+'&page=' + page).
-
-     done(function(data) {
-     if (data != null){
-     $.each(data, function(key, region) {
-     addRegion(region, element);
-     
-     });
-     }
-     });
+    // Region JSON files not present; skip to prevent 404 errors
+    return;
 }
 
 // Add region
