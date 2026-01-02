@@ -5,7 +5,7 @@ var proporzioneViewport = x / y;
 
 	var larghezzaMinimaViewport = 0;
 			
-//se il viewport è più stretto di 640 lo imposto a 640
+//se il viewport Ã¨ piÃ¹ stretto di 640 lo imposto a 640
 	if (x < larghezzaMinimaViewport) {
 		//alert('schermo troppo piccolo (' + x + ' x ' + y + ')');
 		y = (larghezzaMinimaViewport * y) / x;
@@ -32,7 +32,7 @@ var sfogliabileY = 870.00;
 //calcolo la proporzione dello sfogliabile
 var proporzioneSfogliabile = sfogliabileX / sfogliabileY;
 
-//se la proporzione dello sfogliabile è maggiore della proporzione del viewport tengo fissa l'altezza
+//se la proporzione dello sfogliabile Ã¨ maggiore della proporzione del viewport tengo fissa l'altezza
 if (proporzioneSfogliabile < proporzioneViewport){
 	altezzaEffettiva 	= y - margineY;
 	larghezzaEffettiva 	= (altezzaEffettiva * (proporzioneSfogliabile));
@@ -101,27 +101,38 @@ function loadPage(page, pageElement) {
         e.preventDefault();
     });
 
-    img.load(function () {
+    img.on('load', function () {
         $(this).css({width: '100%', height: '100%'});
         $(this).appendTo(pageElement);
+        pageElement.find('.loader').remove();
+    }).on('error', function () {
         pageElement.find('.loader').remove();
     });
 
     img.attr('src', flipbookcfg.url + (page - flipbookcfg.cover) + '.jpg');
+
+    if (img[0].complete && img[0].naturalWidth > 0) {
+        img.trigger('load');
+    }
+
     loadRegions(page, pageElement);
 }
 
 //Load large page
 function loadLargePage(page, pageElement) {
     var img = $('<img />');
-    img.load(function () {
+    img.on('load', function () {
         var prevImg = pageElement.find('img');
         $(this).css({width: '100%', height: '100%'});
         $(this).appendTo(pageElement);
         prevImg.remove();
-
     });
+
     img.attr('src', flipbookcfg.url + (page - flipbookcfg.cover) + '.jpg');
+
+    if (img[0].complete && img[0].naturalWidth > 0) {
+        img.trigger('load');
+    }
 }
 
 //Load small page
